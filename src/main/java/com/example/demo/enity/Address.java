@@ -44,4 +44,15 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Address(Long addressId, String street, String buildingName, String city, String state, String country, String pincode) {
+        this.addressId = addressId;
+        this.street = street;
+        this.buildingName = buildingName;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.pincode = pincode;
+
+    }
 }

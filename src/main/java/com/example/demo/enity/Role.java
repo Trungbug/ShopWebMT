@@ -1,10 +1,8 @@
 package com.example.demo.enity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +19,8 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(length = 20, name = "role_name")
     private AppRole roleName;
-
+    public Role(AppRole roleName) {
+        this.roleName = roleName;
+    }
 
 }
