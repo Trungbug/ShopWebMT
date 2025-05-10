@@ -41,9 +41,9 @@ public class Address {
     @Size(min = 5, message = "Pincode must be atleast 5 characters")
     private String pincode;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Address(Long addressId, String street, String buildingName, String city, String state, String country, String pincode) {
         this.addressId = addressId;
