@@ -4,6 +4,7 @@ import com.example.demo.constants.AppConstants;
 import com.example.demo.dto.product.ProductDTO;
 import com.example.demo.dto.product.ProductResponse;
 import com.example.demo.service.ProductService;
+import com.github.javafaker.Faker;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,6 +87,26 @@ public class ProductController {
         ProductDTO updatedProduct = productService.updateProductImage(productId, image);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
-
+//    @PostMapping("/generateFakeProducts")
+//    private ResponseEntity<String> generateFakeProducts() {
+//        Faker faker = new Faker();
+//        for (int i = 0; i < 1_000; i++) {
+//            String productName = faker.commerce().productName();
+//
+//            ProductDTO productDTO = ProductDTO.builder()
+//                    .name(productName)
+//                    .price((float) faker.number().numberBetween(10, 90_000_000))
+//                    .description(faker.lorem().sentence())
+//                    .thumbnail("")
+//                    .categoryId((long) faker.number().numberBetween(2, 5))
+//                    .build();
+//            try {
+//                productService.addProduct(productDTO);
+//            } catch (Exception e) {
+//                return ResponseEntity.badRequest().body(e.getMessage());
+//            }
+//        }
+//        return ResponseEntity.ok("Fake Products created successfully");
+//    }
 
 }
