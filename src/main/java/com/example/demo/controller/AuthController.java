@@ -6,11 +6,13 @@ import com.example.demo.enity.User;
 import com.example.demo.repositoies.RoleRepository;
 import com.example.demo.repositoies.UserRepository;
 import com.example.demo.security.JwtUtils;
+import com.example.demo.security.request.ChangePasswordRequest;
 import com.example.demo.security.request.LoginRequest;
 import com.example.demo.security.request.SignupRequest;
 import com.example.demo.security.response.MessageResponse;
 import com.example.demo.security.response.UserInfoResponse;
 import com.example.demo.security.service.UserDetailsImpl;
+import com.example.demo.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +53,10 @@ public class AuthController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    AuthUtil authUtil;
+//    @Autowired
 
     @Autowired
     PasswordEncoder encoder;
@@ -164,4 +170,24 @@ public class AuthController {
                         cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
     }
+//    @PostMapping("/user/change-password")
+//    public ResponseEntity<String> changePassword(@RequestParam String oldPassword,
+//                                                 @RequestParam String newPassword) {
+//        userService.changePassword(oldPassword, newPassword);
+//        return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+//    }
+@PostMapping("/change-password")
+public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request) {
+    User currentUser = authUtil.loggedInUser();
+
+    if (!encoder.matches(request.getOldPassword(), currentUser.getPassword())) {
+        return ResponseEntity.badRequest().body(new MessageResponse("Error: Old password is incorrect!"));
+    }
+
+    currentUser.setPassword(encoder.encode(request.getNewPassword()));
+    userRepository.save(currentUser);
+
+    return ResponseEntity.ok(new MessageResponse("Password changed successfully!"));
+}
+
 }
